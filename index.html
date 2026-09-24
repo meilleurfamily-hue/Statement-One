@@ -2,8 +2,13 @@
 (function(){
  const r=document.getElementById('root');
  function dash(){r.innerHTML='<div class="card"><span class="muted">OFFICER PORTAL / DASHBOARD</span><h1>Dashboard</h1><p class="muted">Create and manage secure field incidents, witness intake and evidence.</p><div class="notice"><b>● DEMO SYSTEM READY</b><br>FICTIONAL INFORMATION ONLY — NOT FOR REAL EVIDENCE</div><div class="field"><label>Incident type</label><select><option>Motor Vehicle Collision</option><option>Property Incident</option><option>Domestic Disturbance / Intimate Partner Violence</option><option>Public Safety Incident</option><option>Other</option></select></div><button class="btn">Create Demo Occurrence</button></div>'}
+ function card(title,body){r.innerHTML='<div class="card"><span class="muted">OFFICER PORTAL</span><h1>'+title+'</h1>'+body+'</div>'}
+ function occurrences(){card('Occurrences','<p class="muted">Search, reopen and manage fictional demonstration occurrences.</p><div class="notice"><b>Occurrence workspace</b><br>Witness statements, officer notes, evidence and incident records remain tied to the occurrence.</div>')}
+ function evidence(){card('Evidence Packages','<p class="muted">Review evidence packages tied to fictional demonstration occurrences.</p><div class="notice"><b>Evidence integrity</b><br>Original files, timestamps and integrity information are preserved.</div>')}
+ function witnesses(){card('Witnesses','<p class="muted">Track private witness sessions and statement status.</p><div class="notice"><b>Private sessions</b><br>Witnesses cannot view or influence another witness statement.</div>')}
+ function reports(){card('Reports','<p class="muted">Prepare complete fictional occurrence packages for review, print or export.</p>')}
  window.__soDashboard=dash; dash();
- document.addEventListener('click',function(e){const a=e.target.closest('.mobiletabs a');if(a&&a.textContent.trim()==='Dashboard')dash()});
+ document.addEventListener('click',function(e){const a=e.target.closest('.mobiletabs a');if(!a)return;e.preventDefault();document.querySelectorAll('.mobiletabs a').forEach(x=>x.classList.remove('active'));a.classList.add('active');const t=a.textContent.trim();if(t==='Dashboard')dash();else if(t==='Occurrences')occurrences();else if(t==='Evidence Packages')evidence();else if(t==='Witnesses')witnesses();else if(t==='Reports')reports();});
 })();
 </script><script>
 const API='https://kpogmxdafsokmmvxbrnh.supabase.co/functions/v1/statementone-demo';let currentOfficer={display_name:'Jordan Example',badge_no:'D-1042',role:'Officer',agency_name:'StatementOne Demonstration Agency'};let currentPermissions={};const root=document.getElementById('root');const qs=new URLSearchParams(location.search);const scene=qs.get('scene');
