@@ -5,9 +5,9 @@ const SAFE_TRANSLATE='https://kpogmxdafsokmmvxbrnh.supabase.co/functions/v1/stat
 function soOccurrence(){try{return JSON.parse(localStorage.getItem('so_demo_occurrence')||'{}')}catch(_e){return {}}}
 function soKey(base){const o=soOccurrence();return base+'_'+(o.occurrence_no||'unassigned')}
 function soGet(base,fallback){try{const v=localStorage.getItem(soKey(base));return v===null?fallback:JSON.parse(v)}catch(_e){return fallback}}
-function soSet(base,value){try{localStorage.setItem(soKey(base),JSON.stringify(value))}catch(_e){}}
-function soState(){try{const o=soOccurrence(),k='so_demo_state_'+(o.occurrence_no||'unassigned');return JSON.parse(localStorage.getItem(k)||'{}')}catch(_e){return {}}}
-function soSave(p){try{const o=soOccurrence(),k='so_demo_state_'+(o.occurrence_no||'unassigned');localStorage.setItem(k,JSON.stringify(Object.assign(soState(),p)))}catch(_e){}}
+function soSet(base,value){const o=soOccurrence();if(!o.occurrence_no)return false;try{localStorage.setItem(soKey(base),JSON.stringify(value));return true}catch(_e){return false}}
+function soState(){try{const o=soOccurrence();if(!o.occurrence_no)return {};const k='so_demo_state_'+o.occurrence_no;return JSON.parse(localStorage.getItem(k)||'{}')}catch(_e){return {}}}
+function soSave(p){const o=soOccurrence();if(!o.occurrence_no)return false;try{const k='so_demo_state_'+o.occurrence_no;localStorage.setItem(k,JSON.stringify(Object.assign(soState(),p)));return true}catch(_e){return false}}
 function soAccess(){try{return JSON.parse(localStorage.getItem('so_demo_access')||'null')||{user:'Jordan Example',badge:'D-1042',role:'Officer',assigned:true}}catch(_e){return {user:'Jordan Example',badge:'D-1042',role:'Officer',assigned:true}}}
 function soCanContribute(){const a=soAccess();return a.role==='Officer'&&a.assigned===true}
 function soAccessBanner(){const a=soAccess(),esc=x=>String(x||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');return soCanContribute()?'<div class="notice"><b>CONTRIBUTOR ACCESS</b><br>'+esc(a.user)+' — '+esc(a.badge)+' · Assigned officer. Officer-entered portions may be added or formally amended. Submitted witness material remains locked.</div>':'<div class="notice" style="border-left:5px solid #d7aa45"><b>READ-ONLY OCCURRENCE</b><br>'+esc(a.role)+' access. You may review this occurrence. Changes are restricted to the assigned officer or an authorized reassignment.</div>'}
