@@ -234,7 +234,6 @@ async function submitDemo(){let r=await fetch(API+'?action=submit',{method:'POST
 try{
   if(scene){join()}
   else if(typeof window.__soDashboard==='function'){window.__soDashboard()}
-  else if(typeof officer==='function'){officer()}
 }catch(e){
   const root=document.getElementById('root');
   if(root)root.innerHTML='<div class="card"><h1>Statement One</h1><div class="notice"><b>Demo interface could not initialize.</b><br>Please refresh after the deployment completes.</div></div>';
