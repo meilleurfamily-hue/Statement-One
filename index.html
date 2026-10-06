@@ -117,6 +117,8 @@ function card(title,body){if(r.innerHTML&&!safeNavigatingBack)safeHistory.push(r
   const norm=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
   const n=norm(name),d=String(dob||'').trim();if(!n)return [];
   let list=[];try{list=JSON.parse(localStorage.getItem('so_demo_occurrences')||'[]')}catch(_e){}
+  let missing=[];try{missing=JSON.parse(localStorage.getItem('so_demo_missing')||'[]')}catch(_e){}
+  missing.filter(m=>m&&m.occurrence_no&&norm(m.name)===n).forEach(m=>{if(!list.some(x=>x&&x.occurrence_no===m.occurrence_no)){list.push({occurrence_no:m.occurrence_no,incident:'Missing Person',primary_person:m.name,primary_role:'Missing Person',location:m.lastSeen||'',created_at:m.created_at||m.at||m.saved_at||'',lifecycle_status:'ACTIVE',__recovered_from_missing:true})}});
   return list.filter(x=>x&&x.occurrence_no!==currentOccurrence&&norm(x.primary_person)===n).map(x=>{let priorDob=String(x.primary_dob||'').trim();if(!priorDob)try{const mp=JSON.parse(localStorage.getItem('so_demo_missing_'+x.occurrence_no)||'[]');const hit=mp.find(m=>m&&norm(m.name)===n&&m.dob);if(hit)priorDob=String(hit.dob)}catch(_e){}if(!priorDob)try{const mp=JSON.parse(localStorage.getItem('so_demo_missing')||'[]');const hit=mp.find(m=>m&&m.occurrence_no===x.occurrence_no&&norm(m.name)===n&&m.dob);if(hit)priorDob=String(hit.dob)}catch(_e){}return Object.assign({},x,{__related_match:(d&&priorDob&&d===priorDob)?'NAME_DOB':'NAME_ONLY',__related_dob:priorDob})});
  }
  function soOccurrenceSnapshot(x){
