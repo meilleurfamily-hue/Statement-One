@@ -288,7 +288,6 @@ document.addEventListener('click',function(e){const b=e.target&&e.target.closest
  document.addEventListener('click',function(e){const b=e.target&&e.target.closest?e.target.closest('[data-ack-located]'):null;if(!b)return;const occ=b.getAttribute('data-ack-located')||'',name=b.getAttribute('data-ack-name')||'',m=soGet('so_demo_missing',[]),rec=m.find(x=>x&&x.occurrence_no===occ&&String(x.name||'')===name&&String(x.status||'').toUpperCase()==='LOCATED');if(rec){rec.dashboard_located_ack=true;soSet('so_demo_missing',m)}dash()},true);
  document.addEventListener('click',async function(e){if(e.target&&e.target.id==='safeSaveToFile'){if(!soRequireContributor())return;soSaveDraft(true);return}
 if(e.target&&e.target.id==='safeDashCommandBar'){commandBar();return}if(e.target&&e.target.id==='safeDashIntegrationStatus'){integrationStatus();return}if(e.target&&e.target.id==='safeDashSupervisor'){supervisorCentre();return} if(e.target&&e.target.id==='safeQuickRights'){quickRights();return}
-if(e.target&&e.target.id==='safeQuickRights'){quickRights();return}
 if(e.target&&e.target.id==='safeQuickSearch'){globalSearch();return}
 if(e.target&&e.target.id==='safeGoOccurrences'){occurrences();return}
 if(e.target&&e.target.id==='safeVoiceGlobalSearch'){window.__soVoiceSearch('safeGlobalSearchInput','safeVoiceSearchStatus');return}
